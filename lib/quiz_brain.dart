@@ -33,6 +33,10 @@ class QuizBrain {
         true),
   ];
 
+  int getQuestionsLength() {
+    return _questionsBank.length;
+  }
+
   void nextQuestion() {
     if (_index < _questionsBank.length - 1) {
       _index++;

@@ -29,6 +29,27 @@ class QuizPage extends StatefulWidget {
 class _QuizPageState extends State<QuizPage> {
   List<Widget> scoreKeeper = [];
   QuizBrain quizBrain = QuizBrain();
+  void _checkAnswer(bool pickedAnswer) {
+    if (scoreKeeper.length < quizBrain.getQuestionsLength()) {
+      if (pickedAnswer == quizBrain.getQuestionAnswer()) {
+        setState(() {
+          scoreKeeper.add(const Icon(
+            Icons.check,
+            color: Colors.green,
+          ));
+          quizBrain.nextQuestion();
+        });
+      } else {
+        setState(() {
+          scoreKeeper.add(const Icon(
+            Icons.close,
+            color: Colors.red,
+          ));
+          quizBrain.nextQuestion();
+        });
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -67,23 +88,7 @@ class _QuizPageState extends State<QuizPage> {
                   ),
                 ),
                 onPressed: () {
-                  if (quizBrain.getQuestionAnswer() == true) {
-                    setState(() {
-                      scoreKeeper.add(const Icon(
-                        Icons.check,
-                        color: Colors.green,
-                      ));
-                      quizBrain.nextQuestion();
-                    });
-                  } else {
-                    setState(() {
-                      scoreKeeper.add(const Icon(
-                        Icons.close,
-                        color: Colors.red,
-                      ));
-                      quizBrain.nextQuestion();
-                    });
-                  }
+                  _checkAnswer(true);
                 }),
           ),
         ),
@@ -102,23 +107,7 @@ class _QuizPageState extends State<QuizPage> {
                   ),
                 ),
                 onPressed: () {
-                  if (quizBrain.getQuestionAnswer() == false) {
-                    setState(() {
-                      scoreKeeper.add(const Icon(
-                        Icons.check,
-                        color: Colors.green,
-                      ));
-                      quizBrain.nextQuestion();
-                    });
-                  } else {
-                    setState(() {
-                      scoreKeeper.add(const Icon(
-                        Icons.close,
-                        color: Colors.red,
-                      ));
-                      quizBrain.nextQuestion();
-                    });
-                  }
+                  _checkAnswer(false);
                 }),
           ),
         ),
@@ -129,9 +118,3 @@ class _QuizPageState extends State<QuizPage> {
     );
   }
 }
-
-/*
-question1: 'You can lead a cow down stairs but not up stairs.', false,
-question2: 'Approximately one quarter of human bones are in the feet.', true,
-question3: 'A slug\'s blood is green.', true,
-*/
